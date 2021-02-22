@@ -519,8 +519,10 @@ def gen_blueprints(
   arm_syscall_tbl = 'arch/arm/tools/syscall.tbl'
   rel_glob = '**/*.h'
   generic_prefix = 'include/uapi'
+  techpack_prefix = 'techpack/audio/include/uapi'
   arch_prefix = os.path.join('arch', header_arch, generic_prefix)
   generic_src = os.path.join(generic_prefix, rel_glob)
+  teckpack_src = os.path.join(teckpack_prefix, rel_glob)
   arch_src = os.path.join(arch_prefix, rel_glob)
 
   # Excluded sources, architecture specific.
@@ -567,6 +569,7 @@ def gen_blueprints(
       f.write('    "%s",\n' % arm_syscall_tbl)
 
     f.write('    "%s",\n' % generic_src)
+    f.write('    "%s",\n' % techpack_src)
     f.write('    "%s",\n' % arch_src)
     f.write(']\n')
     f.write('\n')
@@ -604,6 +607,7 @@ def gen_blueprints(
     if generic_out:
       f.write('\n')
       f.write('    // From %s\n' % generic_src)
+      f.write('    // From %s\n' % teckpack_src)
       f.write('\n')
       for h in generic_out:
         f.write('    "%s",\n' % h)
@@ -679,7 +683,7 @@ def gen_blueprints(
       f.write('        "--arch_syscall_tbl $(location %s) " +\n' % arm_syscall_tbl)
 
     f.write('        "--headers_install $(location %s) " +\n' % headers_install_sh)
-    f.write('        "--include_uapi $(locations %s)",\n' % generic_src)
+    f.write('        "--include_uapi $(locations %s %s)",\n' % generic_src, techpack_src)
     f.write('    out: ["linux/version.h"] + gen_headers_out_%s,\n' % header_arch)
     f.write('}\n')
 
