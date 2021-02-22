@@ -6,7 +6,6 @@ gen_headers_srcs_arm64 = [
     "include/uapi/asm-generic/Kbuild.asm",
     "Makefile",
     "include/uapi/**/*.h",
-    "techpack/audio/include/uapi/**/*.h",
     "arch/arm64/include/uapi/**/*.h",
 ]
 
@@ -968,7 +967,6 @@ genrule {
         "--gen_dir $(genDir) " +
         "--arch_asm_kbuild $(location arch/arm64/include/uapi/asm/Kbuild) " +
         "--arch_include_uapi $(locations arch/arm64/include/uapi/**/*.h) " +
-        "--techpack_include_uapi $(locations techpack/*/include/uapi/*/**/*.h) " +
         "--asm_generic_kbuild $(location include/uapi/asm-generic/Kbuild.asm) " +
         "blueprints " +
         "# $(in)",
@@ -992,14 +990,12 @@ genrule {
         "--gen_dir $(genDir) " +
         "--arch_asm_kbuild $(location arch/arm64/include/uapi/asm/Kbuild) " +
         "--arch_include_uapi $(locations arch/arm64/include/uapi/**/*.h) " +
-        "--techpack_include_uapi $(locations techpack/*/include/uapi/*/**/*.h) " +
         "--asm_generic_kbuild $(location include/uapi/asm-generic/Kbuild.asm) " +
         "headers " +
         "--old_gen_headers_bp $(location gen_headers_arm64.bp) " +
         "--new_gen_headers_bp $(location :qti_generate_gen_headers_arm64) " +
         "--version_makefile $(location Makefile) " +
         "--headers_install $(location headers_install.sh) " +
-//        "--include_uapi $(locations include/uapi/**/*.h techpack/audio/include/uapi/**/*.h)",
         "--include_uapi $(locations include/uapi/**/*.h)",
     out: ["linux/version.h"] + gen_headers_out_arm64,
 }
